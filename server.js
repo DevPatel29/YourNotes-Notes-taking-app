@@ -2,9 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const userRouter = require("./routes/userRouter");
-const notesRouter = require("./routes/notesRouter");
-const sharedNotesRouter = require("./routes/sharedNotesRouter");
+const userRouter = require("./routes/userRouter.js");
+const notesRouter = require("./routes/notesRouter.js");
+const sharedNotesRouter = require("./routes/sharedNotesRouter.js");
 
 const app = express();
 app.use(express.json());
@@ -33,3 +33,5 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;

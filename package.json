@@ -4,10 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"cd client && npm run start\" \"nodemon server.js\" ",
     "server": "nodemon server.js",
     "client": "cd client && npm run start",
-    "install": "concurrently \"cd client && npm install\" \"npm install\" "
+    "client-install": "cd client && npm install",
+    "server-install": "npm install",
+    "install-all": "concurrently \"npm run client-install\" \"npm run server-install\" ",
+    "start": "concurrently \"npm run client\" \"npm run server\" ",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +26,8 @@
     "mongoose": "^5.9.27"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
   }
 }

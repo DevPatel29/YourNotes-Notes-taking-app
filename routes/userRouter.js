@@ -55,7 +55,7 @@ const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     const user = await Users.findOne({ email: email });
     if (user) {
-      infoLogger.info("Email already exists");
+      infoLogger.info("Post - Email_already_exists");
       return res.status(400).json({ msg: "The email already exists." });
     }
 
@@ -67,8 +67,8 @@ const registerUser = async (req, res) => {
     });
 
     await newUser.save();
-    infoLogger.info("Sign Up Successfull");
-    res.json({ msg: "Sign Up Successfull" });
+    infoLogger.info("Post - Sign_Up_Successfull");
+    res.status(200).json({ msg: "Sign Up Successfull" });
   } catch (err) {
     errorLogger.error(err.message);
     return res.status(500).json({ msg: err.message });
@@ -81,13 +81,13 @@ const loginUser = async (req, res) => {
     const user = await Users.find({ email: email });
 
     if (user.length == 0) {
-      infoLogger.info("User does not exists");
+      infoLogger.info("Post - User_does_not_exists");
       return res.status(400).json({ msg: "User does not exists." });
     }
 
     const isMatch = await bcrypt.compare(password, user[0].password);
     if (!isMatch) {
-      infoLogger.info("Incorrect password");
+      infoLogger.info("Post - Incorrect_password");
       return res.status(400).json({ msg: "Incorrect password." });
     }
 
@@ -96,8 +96,8 @@ const loginUser = async (req, res) => {
       expiresIn: "1d",
     });
 
-    infoLogger.info("Login Successfull");
-    res.json({ token: token, username: user[0].username });
+    infoLogger.info("Post - Login_Successfull");
+    res.status(200).json({ token: token, username: user[0].username });
   } catch (err) {
     errorLogger.error(err.message);
     return res.status(500).json({ msg: err.message });
@@ -115,8 +115,8 @@ const verifyToken = (req, res) => {
       const user = await Users.findById(verified.id);
       if (!user) return res.json({ msg: false, username: "" });
 
-      infoLogger.info("Token verification successfull");
-      return res.json({ msg: true, username: user.username });
+      infoLogger.info("Get - Token_verification_successfull");
+      return res.status(200).json({ msg: true, username: user.username });
     });
   } catch (err) {
     errorLogger.error(err.message);

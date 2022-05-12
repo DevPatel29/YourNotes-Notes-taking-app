@@ -30,7 +30,6 @@ const errorLogger = log4js.getLogger("error");
 const auth = (req, res, next) => {
   try {
     const token = req.header("Authorization");
-    // console.log(token);
     if (!token) return res.status(400).json({ msg: "Invalid Authentication" });
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
@@ -87,8 +86,8 @@ const addToShareNotes = async (req, res) => {
         }
       );
     }
-    infoLogger.info(`sharedNote added - ${req.user.id}`);
-    res.json({ msg: "sharenote added successfully" });
+    infoLogger.info(`Post - sharedNote_added`);
+    res.status(200).json({ msg: "sharenote added successfully" });
   } catch (err) {
     errorLogger.error(err.message);
     return res.status(500).json({ msg: err.message });
@@ -99,11 +98,11 @@ const getSharedNotes = async (req, res) => {
   try {
     const userShareNotes = await sharedNotes.find({ user_id: req.user.id });
     if (userShareNotes.length == 0) {
-      res.json([]);
+      res.status(200).json([]);
     } else {
-      res.json(userShareNotes[0].othersNotes);
+      res.status(200).json(userShareNotes[0].othersNotes);
     }
-    infoLogger.info(`get sharedNotes - ${req.user.id}`);
+    infoLogger.info(`Get - get_sharedNotes`);
   } catch (err) {
     errorLogger.error(err.message);
     return res.status(500).json({ msg: err.message });
@@ -122,8 +121,8 @@ const deleteSharedNote = async (req, res) => {
           othersNotes: othersNotes,
         }
       );
-      infoLogger.info(`delete sharedNote - ${req.user.id}`);
-      res.json("Shared Note delete");
+      infoLogger.info(`Post - delete_sharedNote`);
+      res.status(200).json("Shared Note delete");
     }
   } catch (err) {
     errorLogger.error(err.message);
